@@ -1,108 +1,92 @@
-# Library Management System – Project 2
+# 📚 Library Management System – SQL Project 2
 
-## 📚 Project Overview
+## 🔍 Project Overview
 
-**Project Title**: Library Management System  
 **Level**: Intermediate  
-**Technologies**: SQL (PostgreSQL)
+**Technologies**: PostgreSQL, PL/pgSQL (Stored Procedures)
 
-This project simulates the management of a real-world library using SQL. It focuses on data modeling, CRUD operations, CTAS, and analytical queries. The goal is to showcase SQL proficiency in database design, manipulation, and reporting.
+This project simulates a real-world Library Management System using PostgreSQL. It focuses on relational database design, SQL querying, and process automation using stored procedures.
 
 ---
 
 ## 🎯 Objectives
 
 1. Design a normalized relational database for a library.
-2. Populate tables with realistic data using SQL scripts and CSV files.
-3. Perform standard CRUD operations.
-4. Use CTAS (Create Table As Select) for creating summary tables.
-5. Develop complex queries for meaningful data analysis.
+2. Generate useful reports for business insights.
+3. Use stored procedures to automate return and issue operations.
+4. Apply advanced SQL concepts: multi-table joins, CTAS, date functions, and subqueries.
+5. Simulate a functional system with members, employees, branches, books, and transaction status tracking.
 
 ---
 
 ## 🗂️ Project Structure
 
-### 1. Database Schema
-
-Relevant files:
-- `LibraryProject_Project2.sql` – main script for schema creation.
-- `insert_queries.sql` – INSERT statements for data population.
-- `ERDB_Project2.pgerd` – ER diagram model.
-
-Tables created:
-- `branch`
-- `employees`
-- `members`
-- `books`
-- `issued_status`
-- `return_status`
-
-Each table is connected via foreign key relationships – e.g., `employees.branch_id → branch.branch_id`, `issued_status.issued_book_isbn → books.isbn`.
+### Main Tables:
+- `branch` – Library branches
+- `employees` – Employees assigned to a branch
+- `members` – Library members
+- `books` – Books with status (available or issued)
+- `issued_status` – Book issue records
+- `return_status` – Book return records
 
 ---
 
-### 2. Data Files
+## 🛠️ Features Implemented
 
-Data is stored in CSV format:
-- `branch.csv`
-- `employees.csv`
-- `members.csv`
-- `books.csv`
-- `issued_status.csv`
-- `return_status.csv`
-
-These can be imported directly into PostgreSQL for realistic simulation.
+### ✅ CRUD & Querying
+- Select queries for inspecting books, members, employees, etc.
+- Complex joins to analyze transactions and statuses.
 
 ---
 
-### 3. CRUD Operations
+## 📌 Key Tasks
 
-- ✅ Insert new books and members
-- 🔄 Update addresses or employee salaries
-- ❌ Delete records from `issued_status`
-- 🔍 Select data from all entities for inspection
+### 📅 Task 13: Identify Overdue Books  
+Query to find members who have not returned books within 30 days. Output includes member name, book title, issue date, and days overdue.
 
----
+### 🔁 Task 14: Update Book Status on Return  
+Stored procedure `add_return_records`:
+- Inserts a return entry into `return_status`
+- Updates the book's status to `'yes'`
+- Displays a thank-you message with the book title
 
-### 4. CTAS (Create Table As Select)
+### 📊 Task 15: Branch Performance Report  
+Generates a report per branch with:
+- Total books issued
+- Total books returned
+- Total rental revenue
 
-- Create dynamic summary tables for reporting:
-    - `book_issued_cnt`: number of times each book was issued
-    - `active_members`: members active in the last 2 months
-    - `expensive_books`: books with rental price above a threshold
+### 📋 Task 16: CTAS – Active Members Table  
+Creates `active_members` for users who borrowed at least one book in the last 12 months.
 
----
+### 🧑‍💼 Task 17: Top 3 Employees by Book Issues  
+Ranks employees by number of book issues processed, including their branch info.
 
-### 5. Reporting & Analysis
-
-Includes:
-- Unreturned books using `LEFT JOIN`
-- Overdue books (more than 30 days)
-- Branch-wise performance reports
-- Top 3 employees by issued books
-- Total rental revenue per branch
-
----
-
-## 🧠 Advanced Features
-
-- **Stored Procedures** (`PL/pgSQL`):
-    - `issue_book`: checks availability, updates status
-    - `add_return_records`: records return and updates book status
+### 🛑 Task 19: Issue Book with Availability Check  
+Stored procedure `issue_book`:
+- Takes the book ISBN and checks if it's available (`status = 'yes'`)
+- If yes: inserts an issue record and updates status to `'no'`
+- If not: prints an error message that the book is not available
 
 ---
 
-## 🏁 How to Run
+## ⚙️ Advanced Automation – Stored Procedures
 
-1. Create the database `library_db`.
-2. Run `LibraryProject_Project2.sql` to build the schema.
-3. Run `insert_queries.sql` to populate the tables.
-4. Use `Exercises.sql` for querying and analysis.
+### 1. `add_return_records(...)`  
+- Inserts a return entry  
+- Updates book status to `'yes'`  
+- Outputs a thank-you message
+
+### 2. `issue_book(...)`  
+- Checks if the book is available  
+- If yes, records the issue and sets status to `'no'`  
+- If not, displays an error notice
 
 ---
 
-## 📌 Project Status
+## 🚀 How to Use
 
-✔️ 100% Complete  
-📂 Suitable for portfolios (Data Analyst / SQL Developer)  
-🧪 Tested with PostgreSQL
+1. Create a PostgreSQL database (e.g., `library_db`).
+2. Run the schema and insert scripts (`LibraryProject_Project2.sql`, `insert_queries.sql`).
+3. Execute the task queries and stored procedures using your preferred SQL client.
+4. Analyze results and simulate real library operations.
